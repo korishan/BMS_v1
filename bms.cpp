@@ -1,7 +1,7 @@
-#include <bq769x0.h>    // Library for Texas Instruments bq76920 battery management IC
 #include "Arduino.h"
 #include "declares.h"
 #include "globals.h"
+#include "bq769x0.h"    // Library for Texas Instruments bq76920 battery management IC
 
 bq769x0 BMS(bq76920, BMS_I2C_ADDRESS);    // battery management system object
 

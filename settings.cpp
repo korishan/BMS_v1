@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <bq769x0.h>    // Library for Texas Instruments bq76920 battery management IC
+#include "bq769x0.h"    // Library for Texas Instruments bq76920 battery management IC
 #include "globals.h"
 #include "declares.h"
 #include "display.h"

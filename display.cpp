@@ -2,6 +2,7 @@
 #include "Arduino.h"
 #include "SSD1306Ascii.h"
 #include "SSD1306AsciiWire.h"
+#include "bq769x0.h"    // Library for Texas Instruments bq76920 battery management IC
 
 #include "globals.h"
 #include "declares.h"
@@ -112,13 +113,80 @@ void displaySysStatus()
 
 void displayVoltage()
 {
-//  oled.println( "Cell Voltages:");
-//  for (int i = 0; i < 4; i++) {
-//    bms.vc_hi[i] = readFrom(deviceAddress, VC_HI[i], 1);
-//    bms.vc_lo[i] = readFrom(deviceAddress, VC_LO[i], 1);
-//  }
+  //  oled.println( "Cell Voltages:");
+  //  for (int i = 0; i < 4; i++) {
+  //    bms.vc_hi[i] = readFrom(deviceAddress, VC_HI[i], 1);
+  //    bms.vc_lo[i] = readFrom(deviceAddress, VC_LO[i], 1);
+  //  }
 
   oled.println( "1.10 | 2.20 | 3.30");
   oled.println( "4.40");
 }
 
+void output_oled()    // OLED SSD1306
+{
+  int balancingStatus = 0; //getBalancingStatus();
+
+  //    i2c.frequency(400000);
+  oled.clear();
+  /*
+      oled.cursor(0, 0);
+      oled.printf("%.2f V", getBatteryVoltage()/1000.0);
+      oled.cursor(64, 0);
+      oled.printf("%.2f A", getBatteryCurrent()/1000.0);
+
+      oled.cursor(0, 8);
+      oled.printf("T:%.1f C", getTemperatureDegC(1));
+      oled.cursor(64, 8);
+      oled.printf("SOC:%.2f", getSOC());
+
+      oled.cursor(0, 16);
+      oled.printf("Load: %.2fV", load_voltage/1000.0);
+
+      for (int i = 0; i < getNumberOfCells(); i++) {
+          if (blinkOn || !(balancingStatus & (1 << i))) {
+              oled.cursor((i % 2 == 0) ? 0 : 64, 24 + (i / 2) * 8);
+              oled.printf("%d:%.3f V", i+1, getCellVoltage(i+1)/1000.0);
+          }
+      }
+
+      oled.display();
+  */
+  /*
+  oled.print(getBatteryVoltage() / 1000.0);
+  oled.println(" V");
+  oled.print(getBatteryCurrent() / 1000.0);
+  oled.println(" A");
+  oled.print("T: ");
+  oled.print(getTemperatureDegC(1));
+  oled.println(" C");
+  oled.print("SOC: ");
+  oled.println(getSOC());
+  oled.print("Load: ");
+  oled.print(load_voltage / 1000.0);
+  oled.println(" V");
+
+  for (int i = 0; i < getNumberOfCells(); i++) {
+    if (blinkOn || !(balancingStatus & (1 << i))) {
+      //oled.cursor((i % 2 == 0) ? 0 : 64, 24 + (i / 2) * 8);
+      if ( i % 2 == 0 )
+      { // Left column
+        oled.print(i + 1);
+        oled.print(": ");
+        oled.print(getCellVoltage(i + 1) / 1000.0);
+        oled.print(" V");
+      }
+      else // Right column
+      {
+        oled.print("   ");
+        oled.print(i + 1);
+        oled.print(": ");
+        oled.print(getCellVoltage(i + 1) / 1000.0);
+        oled.print(" V");
+      }
+    }
+    oled.println();
+  }
+  oled.println();
+  */
+}
