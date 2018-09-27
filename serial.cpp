@@ -8,6 +8,34 @@ const byte numChars = 32;
 boolean newData;
 uint8_t oledDisplayStatus;
 
+// New Serial parsing function to be implemented:
+/*
+void handleSerial()
+{
+  if (Serial.available())
+  {
+    // Read the first character to determine if the value is 't'
+    if (Serial.peek() == 't')
+    {
+      int input = Serial.parseInt();
+    }
+    // Read the first character to determine if the value is 'c'
+    else if (Serial.peek() == 'c')
+    {
+      int input = Serial.parseInt();
+    }
+    // Otherwise, flush the garbage from the serial line
+    else
+    {
+      while(Serial.available())
+      {
+        Serial.read();
+      }
+    }
+  }
+}
+*/
+
 void readSerial()
 {
   char strCmd[32];
@@ -40,14 +68,18 @@ void readSerial()
       case '3':
         Serial.println(F("Not implimented yet."));
         break;
+      case 'c':
+        if (strcmp(strCmd, "cs") == 0)
+          Serial.println(checkStatus());
+        break;
       case 'h':
         display_help(true);
         break;
       case 'r':
-        oled.clear();
-        oled.println(F("ReScanning I2C Bus"));
-        SearchDevices();
-        oled.println(F("Completed Scan"));
+        if (strcmp(strCmd, "rs") == 0)
+          SearchDevices();
+        else if (strcmp(strCmd, "rb") == 0)
+          RebootDevice();
         break;
       case 'g':
         switch (strCmd[1])
@@ -347,4 +379,3 @@ void display_help(bool bSerial)
 
   }
 }
-

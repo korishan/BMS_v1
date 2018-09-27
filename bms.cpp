@@ -17,7 +17,15 @@ int bmsBegin()
   Serial.println("bmsBegin End");
 }
 
-void bmsShutdown(void) {
+void RebootDevice(void)
+{
+  bmsShutdown();
+  delay(50);
+  bmsBegin();
+}
+
+void bmsShutdown(void)
+{
   BMS.shutdown();
 }
 
@@ -229,3 +237,33 @@ void setAlertInterruptFlag(void)
 {
   BMS.setAlertInterruptFlag();
 }
+
+//void resetSOC(int percent)
+//{
+//  BMS.resetSOC(percent);
+//}
+
+//void updateVoltages()
+//{
+//  BMS.updateVoltages();
+//}
+
+//void updateTemperatures()
+//{
+//  BMS.updateTemperatures();
+//}
+
+// If ignoreCCReadFlag == true, the current is read independent of an interrupt
+// indicating the availability of a new CC reading
+//void updateCurrent(bool ignoreCCReadyFlag)
+//{
+//  BMS.updateCurrent(ignoreCCReadyFlag);
+//}
+
+// sets balancing registers if balancing is allowed (sufficient idle time + voltage)
+//byte updateBalancingSwitches(void)
+//{
+//  BMS.updateBalancingSwitches();
+//}
+
+

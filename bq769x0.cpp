@@ -111,6 +111,9 @@ int bq769x0::begin(byte alertPin, byte bootPin)
   // done before calling this method)
   if (bootPin >= 0)
   {
+#if BQ769X0_DEBUG
+    Serial.println("BMS Boot Pin " + String(bootPin));
+#endif
     pinMode(bootPin, OUTPUT);
     digitalWrite(bootPin, HIGH);
     delay(5);   // wait 5 ms for device to receive boot signal (datasheet: max. 2 ms)
@@ -119,10 +122,16 @@ int bq769x0::begin(byte alertPin, byte bootPin)
   }
 
   // test communication
+#if BQ769X0_DEBUG
+  Serial.println("Attempt writeRegister(CC_CFG) = 0x19");
+#endif
   writeRegister(CC_CFG, 0x19);       // should be set to 0x19 according to datasheet
 
   if (readRegister(CC_CFG) == 0x19)
   {
+#if BQ769X0_DEBUG
+    Serial.println("Attempt writeRegister 0x19 Succeeded");
+#endif
     // initial settings for bq769x0
     writeRegister(SYS_CTRL1, B00011000);  // switch external thermistor and ADC on
     writeRegister(SYS_CTRL2, B01000000);  // switch CC_EN on
@@ -141,6 +150,8 @@ int bq769x0::begin(byte alertPin, byte bootPin)
   {
 #if BQ769X0_DEBUG
     Serial.println("BMS communication error");
+    Serial.print("FAILED: readRegister(CC_CFG) = ");
+    Serial.println(readRegister(CC_CFG), HEX);
 #endif
     return 1;
   }

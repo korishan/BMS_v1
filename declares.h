@@ -40,6 +40,8 @@ void bmsUpdate();
 int checkStatus(); // returns 0 if everything is OK
 void update(void);
 void shutdown(void);
+void bmsShutdown(void);
+void RebootDevice(void);
 
 // charging control
 bool enableCharging(void);

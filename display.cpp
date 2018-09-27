@@ -15,7 +15,9 @@ void PrintMenu()
   Serial.println("2: Voltage Reading");
   Serial.println("3: ...");
   Serial.println("4: ...");
-  Serial.println("r: ReScan for Devices");
+  Serial.println("cs: Check Status");
+  Serial.println("rs: ReScan for Devices");
+  Serial.println("rb: ReBoot BMS");
 }
 
 void setupDisplay()
@@ -153,20 +155,20 @@ void output_oled()    // OLED SSD1306
       oled.display();
   */
   /*
-  oled.print(getBatteryVoltage() / 1000.0);
-  oled.println(" V");
-  oled.print(getBatteryCurrent() / 1000.0);
-  oled.println(" A");
-  oled.print("T: ");
-  oled.print(getTemperatureDegC(1));
-  oled.println(" C");
-  oled.print("SOC: ");
-  oled.println(getSOC());
-  oled.print("Load: ");
-  oled.print(load_voltage / 1000.0);
-  oled.println(" V");
+    oled.print(getBatteryVoltage() / 1000.0);
+    oled.println(" V");
+    oled.print(getBatteryCurrent() / 1000.0);
+    oled.println(" A");
+    oled.print("T: ");
+    oled.print(getTemperatureDegC(1));
+    oled.println(" C");
+    oled.print("SOC: ");
+    oled.println(getSOC());
+    oled.print("Load: ");
+    oled.print(load_voltage / 1000.0);
+    oled.println(" V");
 
-  for (int i = 0; i < getNumberOfCells(); i++) {
+    for (int i = 0; i < getNumberOfCells(); i++) {
     if (blinkOn || !(balancingStatus & (1 << i))) {
       //oled.cursor((i % 2 == 0) ? 0 : 64, 24 + (i / 2) * 8);
       if ( i % 2 == 0 )
@@ -186,7 +188,7 @@ void output_oled()    // OLED SSD1306
       }
     }
     oled.println();
-  }
-  oled.println();
+    }
+    oled.println();
   */
 }

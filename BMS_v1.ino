@@ -19,6 +19,8 @@ void setup()
   internalVCC = readVcc(); // A global variable for storing the internal voltage reference of the 1.1V rail of the chip.
   Serial.begin(115200);
   Wire.begin();
+  Wire.setClock(400000L);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   int err = bmsBegin();
 
@@ -31,11 +33,25 @@ void loop() {
   unsigned long currentTimer = millis();
   static unsigned long bmsUpdateLast;
   static unsigned long serialLastUpdate;
+  static long previousBlink;
+  static bool blinkOn;
 
   if (currentTimer - bmsUpdateLast > settings.bmsRefreshInt)
   {
     bmsUpdate();  // should be called at least every 250 ms
     bmsUpdateLast = currentTimer;
+  }
+  if (currentTimer - previousBlink > 1000)
+  {
+    if (blinkOn == false)
+    {
+      digitalWrite(LED_BUILTIN, HIGH);
+    }
+    else if (blinkOn == true)
+    {
+      digitalWrite(LED_BUILTIN, LOW);
+    }
+    blinkOn = !blinkOn;
   }
   if (currentTimer - serialLastUpdate > settings.displayStatusRefresh)
   {
@@ -43,8 +59,7 @@ void loop() {
     Serial.print(F("Cell Voltages: "));
     for (int i = 1; i <= 5; i++)
     {
-      Serial.print(getCellVoltage(i));
-      Serial.print(F(" "));
+      Serial.print(String(getCellVoltage(i))+ " ");
     }
     Serial.println();
     serialLastUpdate = currentTimer;
